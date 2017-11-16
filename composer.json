@@ -1,0 +1,19 @@
+{
+    "name": "gal/php2.courses.local",
+    "authors": [
+        {
+            "name": "Gal",
+            "email": "agalvis@yandex.ru"
+        }
+    ],
+
+    "require": {
+      "twig/twig" : "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "src/"
+        }
+    }
+
+}
