@@ -65,4 +65,15 @@ class RequestManager
     public function getActionName(){
         return $this->actionName;
     }
+
+    public function get($type, $param){
+        switch ($type){
+            case 'post':
+                return $_POST[$param];
+            case 'get':
+                return $_GET[$param];
+
+
+        }
+    }
 }

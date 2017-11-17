@@ -13,12 +13,21 @@ use app\base\App;
 use app\models\repositories\ProductRepository;
 use app\models\repositories\SessionRepository;
 use app\models\User;
+use app\services\ShopcartProcessor;
 
 
 class ProductController extends Controller
 {
     /** @var ProductRepository*/
     private $productRepository;
+
+    /** @var ShopcartProcessor*/
+    private $shopcartProcessor;
+
+    /** @var User*/
+    private $user;
+
+
     /**
      * ProductController constructor.
      */
@@ -26,6 +35,7 @@ class ProductController extends Controller
     {
         parent::__construct();
     }
+
 
     /**
      * Выводит страницу товара
@@ -72,7 +82,7 @@ class ProductController extends Controller
 
         echo $render->render(['render' => $this->render, 'user'=>App::call()->user->getCurrent()]);
     }
-
+    
 }
 
 

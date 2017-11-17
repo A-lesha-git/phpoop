@@ -15,6 +15,8 @@ class Repository
     protected $db;
     protected $entityClass;
 
+    private $conditions;
+
     public function __construct()
     {
         $this->db = App::call()->db;
@@ -57,6 +59,24 @@ class Repository
     public  function findAll(){
 
         return $this->db->fetchObjects("Select * from {$this->tableName}", [], $this->entityClass);
+    }
+
+    public function findBy($params = []){
+        $this->sql = "Select * from {$this->tableName} WHERE %s";
+
+
+        foreach ($params as $key=>$value){
+            $this->conditions .= $key ."=:" . $key . " AND ";
+
+        }
+
+        $this->conditions = substr($this->conditions, 0, -4);
+        $this->sql = sprintf($this->sql,$this->conditions);
+        var_dump($this->sql);
+
+        return $this->db->fetchObjects($this->sql, $params, $this->entityClass);
+//        $this->sql = str_replace();
+
     }
 
     /**

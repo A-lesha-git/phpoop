@@ -12,6 +12,7 @@ use app\base\App;
 use app\models\repositories\UserRepository;
 use app\models\repositories\SessionRepository;
 use app\models\User;
+use app\services\Session;
 
 class Auth
 {
@@ -40,13 +41,20 @@ class Auth
     public function getSessionId()
     {
 
+        $this->sid = App::call()->session->getSid();
 
-        $this->sid = $_SESSION[$this->sessionKey];
-        var_dump($this->sid);
-        if(!is_null($this->sid)){
-            (new SessionRepository())->updateLastTime($this->sid);
+            if(!is_null($this->sid)){
+                (new SessionRepository())->updateLastTime($this->sid);
         }
+
         return $this->sid;
+
+//        $this->sid = $_SESSION[$this->sessionKey];
+//        var_dump($this->sid);
+//        if(!is_null($this->sid)){
+//            (new SessionRepository())->updateLastTime($this->sid);
+//        }
+//        return $this->sid;
     }
 
     public function openSession(User $user)
@@ -55,6 +63,8 @@ class Auth
         (new SessionRepository())->createNew($user->id, $sid, date("Y-m-d H:i:s"));
 //        $_SESSION[$this->sessionKey] = $sid;
         App::call()->session->setSid($sid);
+        App::call()->session->setUid($user->id);
+        var_dump($_SESSION);
     }
 
     private function generateStr($length = 10)

@@ -19,6 +19,12 @@ return [
         'auth' => [
             'class' => \app\services\Auth::class
         ],
+        'cartProcessor' => [
+            'class' => \app\services\shop\CartProcessor::class
+        ],
+        'cart' => [
+            'class' => \app\models\Cart::class
+        ],
         'user' => [
             'class' => \app\models\User::class
         ],
@@ -33,7 +39,11 @@ return [
         ],
         'productRepository' => [
             'class' => \app\models\repositories\ProductRepository::class
+        ],
+        'cartRepository' => [
+            'class' => \app\models\repositories\CartRepository::class
         ]
+
     ]
 
 ];

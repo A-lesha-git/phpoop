@@ -49,3 +49,4 @@ class SessionRepository extends Repository
         );
     }
 }
+

@@ -13,10 +13,21 @@ class Session
 {
     private $sid;
     protected $sessionKey = 'sid';
+    private $uidKey = 'uid';
+    private $uid;
 
+
+    public function getUid(){
+        return $this->uid = $_SESSION[$this->uidKey];
+    }
+
+    public function setUid($uid){
+        $_SESSION[$this->uidKey] = $uid;
+        $this->uid = $uid;
+    }
 
     public function getSid(){
-        return $this->sid;
+        return $_SESSION[$this->sessionKey];
     }
 
     public function setSid($sid){
@@ -25,11 +36,11 @@ class Session
     }
 
     public function clearUserSession(){
-        $_SESSION[$this->sessionKey]  = null;
+        unset($_SESSION[$this->sessionKey]);
+        unset($_SESSION[$this->uidKey]);
+        $this->sid = null;
+        $this->uid = null;
         $_SESSION = [];
     }
-
-
-
 
 }

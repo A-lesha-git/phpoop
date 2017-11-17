@@ -8,6 +8,7 @@
 
 namespace app\models;
 
+use app\base\App;
 use app\models\repositories\SessionRepository;
 use app\models\repositories\UserRepository;
 use app\services\Auth;
@@ -60,9 +61,15 @@ class User extends DataEntity
     public function getUserId()
     {
         $sid = (new Auth())->getSessionId();
-        if(!is_null($sid)){
-            return (new SessionRepository())->getUidBySid($sid);
+        if (!is_null($sid)) {
+            $this->id = App::call()->sessionRep->getUidBySid($sid);;
+            App::call()->session->setSid($sid);
+            App::call()->session->setUid($this->id);
+
+            return  $this->id;
         }
+
         return null;
     }
+    
 }
