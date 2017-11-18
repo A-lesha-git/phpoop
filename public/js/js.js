@@ -33,23 +33,24 @@ $(document).ready(function() {
             },
             success: function(answer){
                 $('.message-info').text(answer.message);
-                $('.quantity-cart').text(answer.quantity);
-                $('.total-cart').text(answer.total);
+                $('.quantity-cart').text (" " +answer.quantity);
+                $('.total-cart').text("Итого: " + answer.total + " руб.");
             }
         })
     });
 
 
-    $('.removeCartItem').on('click', function (){
+    $('.removeCartItem').on('click', function (e){
+        e.preventDefault();
         var id_good = $(this).attr("id").substr(5);
-        // console.log(id + " " + $(this).val());
+
         $.ajax({
             dataType: "json",
             method: "POST",
-            url: "/shop/cart/remove",
-            data: { product_id: id_good},
+            url: "/cart/delete/",
+            data: { good_id: id_good},
             success: function(answer){
-                console.log(answer.total);
+                // console.log(answer);
                 $('.message-info').text(answer.message);
                 $('.quantity-cart').text(answer.quantity);
                 $('.total-cart').text(answer.total);
@@ -60,6 +61,7 @@ $(document).ready(function() {
 
     //create order
     $('.make-order').on('click', function(){
+
             // var msg   = $('#shop_cart_order').serialize();
             // console.log(msg);
             $.ajax({

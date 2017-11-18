@@ -42,7 +42,7 @@ return [
         ],
         'cartRepository' => [
             'class' => \app\models\repositories\CartRepository::class
-        ]
+        ],
 
     ]
 

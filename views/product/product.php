@@ -7,7 +7,8 @@
         <h3><?=$product->getTitle()?></h3>
         ЦЕНА:<span class="price">  <strong>Цена: </strong> <?=$product->getPrice()?>  ₽. </span>
 
-        <button class="buyProduct" id="prod_<?=$product->getId()?>" > КУПИТЬ</button>
+        <button class="buyProduct" id="prod_<?=$product->getId()?>" > КУПИТЬ</button><br>
+        <span class="message-info" style="color:green"></span>
     </div>
 
     <div class="product-description">

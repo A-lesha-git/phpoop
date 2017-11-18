@@ -34,8 +34,6 @@ class CartRepository extends Repository
             [':user_id' => $userId],
             $this->entityClass
         );
-//        return $this->findBy(['user_id' => $userId]);
-
     }
 
     public function checkProductInUserShopCart($productId){
@@ -51,7 +49,7 @@ class CartRepository extends Repository
 
     }
 
-    public function incrementGoodQuantity( $cartId){
+    public function incrementGoodQuantity($cartId){
         $this->sql = "UPDATE shop_cart SET quantity = quantity+1 WHERE id={$cartId}";
 
         return $this->db->execute($this->sql, [],$this->entityClass);
@@ -62,6 +60,11 @@ class CartRepository extends Repository
               VALUES ('{$product->getId()}','{$this->uid}', '{$product->getPrice()}', '1')";
 
         return $this->db->execute($this->sql, []);
+    }
+
+    public function deleteCartGood($cartId){
+        $this->sql = "DELETE FROM shop_cart WHERE id='{$cartId}'";
+        return $this->db->execute($this->sql,[]);
     }
 
 

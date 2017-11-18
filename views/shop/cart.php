@@ -12,7 +12,10 @@
                         <!--<td>Количество: 1</td> -->
                         <td><span ><?=$item->getTitle()?></span></td>
                         <td>Цена: <span class="price"><?=$item->getPrice()?> руб.</span></td>
-                        <td>кол-во: <input type="number" id="cart_<?=$item->getId() ?>" name="quantity[]" value="<?= $item->getQuantity()?>"></td>
+                        <td>кол-во:
+                            <span><?=$item->getQuantity()?> </span>
+                        <!--    <input type="number" id="cart_<?=$item->getId() ?>" name="quantity[]" value="<?= $item->getQuantity()?>"> -->
+                        </td>
                         <td><a class="removeCartItem" id="item_<?=$item->getId() ?>" href="#"> Удалить </a> </td>
                     </tr>
                 <?php endforeach; ?>
@@ -21,8 +24,8 @@
                 </tr>
 
                 <tr>
-                    <td>Кол-во товаров: <span class="quantity-cart"> <?= $item->getQuantity() ?></span></td>
-                    <td>ИТОГО: <span class="total-cart"> <?= $item->getTotal() ?></span> руб.</td>
+                    <td>Кол-во товаров: <span class="quantity-cart"> <?= $cart[1] ?></span></td>
+                    <td>ИТОГО: <span class="total-cart"> <?= $cart[0] ?></span> руб.</td>
                 </tr>
                 <tr>
                     <td><input type="text" name="email" value="any@email"></td>
@@ -43,7 +46,7 @@
             </tr>
 
         </table>
-        <span class="message-info"></span>
+        <span class="message-info" style="color:green"></span>
 
 
 

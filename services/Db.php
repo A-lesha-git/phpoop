@@ -125,7 +125,6 @@ class Db
 
     public function queryOne($sql, $params = [])
     {
-        var_dump($sql);var_dump($params);
         return $this->queryAll($sql, $params)[0];
     }
 

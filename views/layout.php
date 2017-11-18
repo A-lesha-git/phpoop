@@ -11,6 +11,10 @@
 <body>
 <div class="wrapper">
     <?= $render->renderChunk('authorization' , ['user' => $user])  ?>
+
+    <?php if(!is_null($user)):?>
+    <?= $render->renderChunk('shop/cart_mini' , ['total' => $total , 'quantity'=>$quantity])  ?>
+    <?php endif; ?>
     <div class='navigation'>
         <?= $render->renderChunk('menu')  ?>
     </div>

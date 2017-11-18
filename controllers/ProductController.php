@@ -13,6 +13,7 @@ use app\base\App;
 use app\models\repositories\ProductRepository;
 use app\models\repositories\SessionRepository;
 use app\models\User;
+use app\services\shop\CartProcessor;
 use app\services\ShopcartProcessor;
 
 
@@ -27,13 +28,33 @@ class ProductController extends Controller
     /** @var User*/
     private $user;
 
-
+    /** @var  CartProcessor */
+    private $cartProcessor;
     /**
      * ProductController constructor.
      */
     public function __construct()
     {
         parent::__construct();
+    }
+    /**
+     * Выводит список товаров
+     */
+    public function actionList(){
+        $this->productRepository = App::call()->productRepository;
+        $products = $this->productRepository->findAll();
+
+
+        $render = $this->getTemplateRenderer();
+
+
+        $render->setTitle("Товары");
+        $render->setContent($render->renderContent('product/list', ['products'=>$products]));
+
+        $this->cartProcessor = App::call()->cartProcessor;
+        $cartInfo = $this->cartProcessor->cartMainInfo();
+
+        echo $render->render(['render' => $this->render, 'user'=>App::call()->user->getCurrent(), 'total'=>$cartInfo[0], 'quantity'=>$cartInfo[1]]);
     }
 
 
@@ -55,22 +76,13 @@ class ProductController extends Controller
 
         $user = App::call()->user->getCurrent();
 
-        echo $render->render(['render' => $this->render, 'user'=>$user]);
+        $this->cartProcessor = App::call()->cartProcessor;
+        $cartInfo = $this->cartProcessor->cartMainInfo();
+
+        echo $render->render(['render' => $this->render, 'user'=>$user,'total'=>$cartInfo[0], 'quantity'=>$cartInfo[1]]);
     }
 
-    /**
-     * Выводит список товаров
-     */
-    public function actionList(){
-        $this->productRepository = App::call()->productRepository;
-        $products = $this->productRepository->findAll();
-        $render = $this->getTemplateRenderer();
 
-        $render->setTitle("Товары");
-        $render->setContent($render->renderContent('product/list', ['products'=>$products]));
-        
-        echo $render->render(['render' => $this->render, 'user'=>App::call()->user->getCurrent()]);
-   }
 
     public function actionIndex(){
         $this->productRepository = App::call()->productRepository;
