@@ -4,6 +4,8 @@
 namespace app\models;
 
 
+use app\base\App;
+
 class Order extends DataEntity
 {
     protected $id;
@@ -126,6 +128,12 @@ class Order extends DataEntity
     public function setDate($date)
     {
         $this->date = $date;
+    }
+
+    // after testing remove hardcode
+    public function getOrder($orderId = 97){
+        App::call()->orderRepository->findOne($orderId);
+
     }
     
 

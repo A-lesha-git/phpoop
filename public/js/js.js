@@ -1,14 +1,14 @@
 $(document).ready(function() {
 
 
-    $('.product-cart input').on('change', function(){
+    $('.update-cart').on('change', function(){
             // alert( " " + $(this).val());
             var id_good = $(this).attr("id").substr(5);
             $.ajax({
                 dataType: "json",
                 method: "POST",
-                url: "/shop/cart/update",
-                data: { cart_product_id: id_good,
+                url: "/cart/update/",
+                data: { good_id: id_good,
                     quantity: $(this).val()
                 },
                 success: function(answer){

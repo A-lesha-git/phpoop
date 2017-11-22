@@ -9,11 +9,40 @@
 namespace app\controllers;
 
 
+use app\models\Order;
+
 class OrderController extends Controller
 {
+    private $orderModel;
+    /*
+     * отображения конкретного заказа
+     */
+    public function actionView($id){
+        
+    }
 
-    
-    public function actionView(){
 
+    /*
+     * Отображение списка заказов
+     */
+    public function actionList(){
+        
+    }
+
+
+    /*
+     * реакция на добавления заказа
+     */
+    public function ActionCreate(){
+
+    }
+
+
+    public function getOrderModel(){
+        if(!isset($this->orderModel)) 
+        {
+            $this->orderModel = new Order();
+        }
+        return $this->orderModel;
     }
 }

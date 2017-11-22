@@ -23,6 +23,6 @@ class JsonCartResponse extends Response
 
     public function get()
     {
-        return get_object_vars($this);
+        return json_encode(get_object_vars($this));
     }
 }

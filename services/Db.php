@@ -106,13 +106,13 @@ class Db
 
     public function execute($sql, $params = [])
     {
-        $this->query($sql, $params);
-        return true;
+        return $this->query($sql, $params);
+//        return true;
     }
     public function executeBindParams($sql, $params = [])
     {
-        $this->queryBindParams($sql, $params);
-        return true;
+       return $this->queryBindParams($sql, $params);
+
     }
 
     public function executeQueryBuilder($class)

@@ -9,7 +9,7 @@
 namespace app\models;
 
 
-class Cart
+class Cart extends DataEntity
 {
     private $id;
     private $product_id;

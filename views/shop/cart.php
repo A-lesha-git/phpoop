@@ -13,8 +13,8 @@
                         <td><span ><?=$item->getTitle()?></span></td>
                         <td>Цена: <span class="price"><?=$item->getPrice()?> руб.</span></td>
                         <td>кол-во:
-                            <span><?=$item->getQuantity()?> </span>
-                        <!--    <input type="number" id="cart_<?=$item->getId() ?>" name="quantity[]" value="<?= $item->getQuantity()?>"> -->
+                            <!--  <span><?=$item->getQuantity()?> </span>-->
+                           <input class="update-cart" type="number" id="cart_<?=$item->getId() ?>" name="quantity[]" value="<?= $item->getQuantity()?>">
                         </td>
                         <td><a class="removeCartItem" id="item_<?=$item->getId() ?>" href="#"> Удалить </a> </td>
                     </tr>
