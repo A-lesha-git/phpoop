@@ -1,30 +1,34 @@
 <?php
 
-$patterns = [
-    "#(?P<controller>\w+)[/]?(?P<action>\w+)?[/]$#ui",
-    "#(?P<controller>\w+)[/]?(?P<action>\w+)?[/](?P<id>\d+)#ui"
-];
+//$patterns = [
+//    "#(?P<controller>\w+)[/]?(?P<action>\w+)?[/]$#ui",
+//    "#(?P<controller>\w+)[/]?(?P<action>\w+)?[/](?P<id>\d+)#ui"
+//];
+//
+////$url  = '/product/card/';
+//$url  = '/product/card/13';
+//$id = 0;
+//
+//foreach ($patterns as $pattern) {
+//    if (preg_match_all($pattern, $url, $matches)) {
+//        var_dump($matches);
+//        $contr = $matches['controller'][0];
+//        $action = $matches['action'][0];
+//        if (isset($matches['id'])) {
+//            $id = $matches['id'][0];
+//        }
+//        break;
+//    }
+//}
+//
 
-//$url  = '/product/card/';
-$url  = '/product/card/13';
-$id = 0;
 
-foreach ($patterns as $pattern) {
-    if (preg_match_all($pattern, $url, $matches)) {
-        var_dump($matches);
-        $contr = $matches['controller'][0];
-        $action = $matches['action'][0];
-        if (isset($matches['id'])) {
-            $id = $matches['id'][0];
-        }
-        break;
+$arr = ['asdfas_l', 'asdfasdf', '_l'];
+foreach ($arr as $str){
+    if(preg_match("/_l?/", $str)){
+        echo $str . "\n";
     }
 }
-
-
-
-
-
 
 
 //$url  = '/product/card/123';

@@ -15,7 +15,8 @@ use app\models\repositories\SessionRepository;
 use app\models\User;
 use app\services\shop\CartProcessor;
 use app\services\ShopcartProcessor;
-
+use app\services\renderers\Template;
+use app\services\renderers\TemplateRenderer;
 
 class ProductController extends Controller
 {
@@ -43,18 +44,22 @@ class ProductController extends Controller
     public function actionList(){
         $this->productRepository = App::call()->productRepository;
         $products = $this->productRepository->findAll();
-
-
-        $render = $this->getTemplateRenderer();
-
-
-        $render->setTitle("Товары");
-        $render->setContent($render->renderContent('product/list', ['products'=>$products]));
-
         $this->cartProcessor = App::call()->cartProcessor;
         $cartInfo = $this->cartProcessor->cartMainInfo();
 
-        echo $render->render(['render' => $this->render, 'user'=>App::call()->user->getCurrent(), 'total'=>$cartInfo[0], 'quantity'=>$cartInfo[1]]);
+
+        $tpl = new Template(
+            new TemplateRenderer(),
+            'product/list',
+            [
+            'products' => $products,
+            'user'=>App::call()->user->getCurrent(),
+            'total'=>$cartInfo[0],
+            'quantity'=>$cartInfo[1]
+            ]
+        );
+
+        echo $tpl->render();
     }
 
 
@@ -70,16 +75,22 @@ class ProductController extends Controller
         if(!$product){
             $this->redirectTo404();
         }
-        $render = $this->getTemplateRenderer();
-        $render->setTitle($render->getTitle() . "/" . $product->getTitle());
-        $render->setContent($render->renderContent('/product/product', ['product'=>$product]));
-
-        $user = App::call()->user->getCurrent();
 
         $this->cartProcessor = App::call()->cartProcessor;
         $cartInfo = $this->cartProcessor->cartMainInfo();
 
-        echo $render->render(['render' => $this->render, 'user'=>$user,'total'=>$cartInfo[0], 'quantity'=>$cartInfo[1]]);
+        $tpl = new Template(
+            new TemplateRenderer(),
+            "/product/product",
+            [
+            'product' => $product,
+            'user'=>App::call()->user->getCurrent(),
+            'total'=>$cartInfo[0],'quantity'=>$cartInfo[1]
+            ]
+        );
+
+        echo $tpl->render();
+
     }
 
 
@@ -87,12 +98,22 @@ class ProductController extends Controller
     public function actionIndex(){
         $this->productRepository = App::call()->productRepository;
         $products = $this->productRepository->findAll();
-        $render = $this->getTemplateRenderer();
+        $this->cartProcessor = App::call()->cartProcessor;
+        $cartInfo = $this->cartProcessor->cartMainInfo();
 
-        $render->setTitle("Товары");
-        $render->setContent($render->renderContent('product/list', ['products'=>$products]));
 
-        echo $render->render(['render' => $this->render, 'user'=>App::call()->user->getCurrent()]);
+        $tpl = new Template(
+            new TemplateRenderer(),
+            'product/list',
+            [
+                'products' => $products,
+                'user'=>App::call()->user->getCurrent(),
+                'total'=>$cartInfo[0],
+                'quantity'=>$cartInfo[1]
+            ]
+        );
+
+        echo $tpl->render();
     }
     
 }

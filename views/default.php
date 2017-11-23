@@ -6,22 +6,24 @@
     <script src='/js/jquery-3.2.1.min.js'></script>
     <script src='/js/js.js'></script>
 
-    <title> <?= $render->getTitle() ?> </title>
+    <title>  </title>
 </head>
 <body>
 <div class="wrapper">
-    <?= $render->renderChunk('authorization' , ['user' => $user])  ?>
+    <?= $auth  ?>
 
     <?php if(!is_null($user)):?>
-    <?= $render->renderChunk('shop/cart_mini' , ['total' => $total , 'quantity'=>$quantity])  ?>
+        <?= $cart_mini  ?>
     <?php endif; ?>
     <div class='navigation'>
-        <?= $render->renderChunk('menu', ['user' => $user])  ?>
+        <?= $menu ?>
     </div>
 
     <div class="content">
-        <?= $render->getContent() ?>
+        <?= $content ?>
     </div>
+
+
 
 </div>
 </body>

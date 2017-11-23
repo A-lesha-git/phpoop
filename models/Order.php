@@ -12,9 +12,27 @@ class Order extends DataEntity
     protected $status;
     protected $address;
     protected $delivery_id;
+    public $delivery;
     protected $total;
     protected $date;
     protected $discount = null;
+    private $paymant;
+
+    /**
+     * @return mixed
+     */
+    public function getPaymant()
+    {
+        return $this->paymant;
+    }
+
+    /**
+     * @param mixed $paymant
+     */
+    public function setPaymant($paymant)
+    {
+        $this->paymant = $paymant;
+    }
 
 
 

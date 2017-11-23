@@ -24,8 +24,8 @@
                 </tr>
 
                 <tr>
-                    <td>Кол-во товаров: <span class="quantity-cart"> <?= $cart[1] ?></span></td>
-                    <td>ИТОГО: <span class="total-cart"> <?= $cart[0] ?></span> руб.</td>
+                    <td>Кол-во товаров: <span class="quantity-cart"> <?= $quantity ?></span></td>
+                    <td>ИТОГО: <span class="total-cart"> <?= $total ?></span> руб.</td>
                 </tr>
                 <tr>
                     <td><input type="text" name="email" value="any@email"></td>

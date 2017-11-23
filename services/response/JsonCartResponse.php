@@ -15,11 +15,9 @@ class JsonCartResponse extends Response
         $this->quantity = $quantity;
         $this->message = $message;
     }
-
     public function setMessage($msg){
         $this->message = $msg;
     }
-
 
     public function get()
     {

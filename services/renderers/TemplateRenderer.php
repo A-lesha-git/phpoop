@@ -6,70 +6,11 @@ namespace app\services\renderers;
 
 use app\base\App;
 
-class TemplateRenderer
+
+class TemplateRenderer implements IRenderer
 {
-    private $layout  = 'layout';
-    private $content = null;
-    private $title = 'Магазин';
 
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getLayout()
-    {
-        return $this->layout;
-    }
-
-    /**
-     * @param string $layout
-     */
-    public function setLayout($layout)
-    {
-        $this->layout = $layout;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * @param string $content
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-
-
-
-    public function renderMenu(){
-        return $this->renderContent($this->menu,[]);
-    }
-
-    public function renderAuth(){
-        $this->renderContent($this->auth,[]);
-    }
+    private $template;
 
 
     public function renderChunk($template, $params=[]){
@@ -78,12 +19,13 @@ class TemplateRenderer
     }
 
 
-    public function render($params) {
-        //var_dump(App::call()->config['templates_dir'] );
-        extract($params);
-        include App::call()->config['templates_dir'] . $this->layout . '.php';
-
-    }
+//    public function render($params, $layout) {
+//
+//        extract($params);
+//
+//        include App::call()->config['templates_dir'] . $layout . '.php';
+//
+//    }
 
     public function renderContent($templateName, $params = []) {
         extract($params);
@@ -95,6 +37,41 @@ class TemplateRenderer
         $content = ob_get_clean();
 
         return $content;
+    }
+
+    private function generateTemplate(){
+
+        $vars = get_object_vars($this->template);
+        unset($vars['renderer']);
+        unset($vars['tplData']);
+        unset($vars['params']);
+        unset($vars['data']);
+
+        //сперва сгенерируем чанки с html кодом
+        foreach ($vars as $var => $value){
+            if(preg_match("/_l?/", $var)){
+                $nameVarContent = str_replace("_l", "", $var);
+                $content =  $this->renderContent($value, $this->template->params);
+                $this->template->setTplData($nameVarContent, $content);
+            }
+        }
+
+        //затем установим переменные
+        foreach ($this->template->params as $key => $value) {
+            $this->template->setTplData($key, $value);
+        }
+
+    }
+
+
+    public function render(Template $tpl){
+        $this->template = $tpl;
+
+        $this->generateTemplate();
+
+        extract($this->template->tplData);
+
+        include App::call()->config['templates_dir'] . $this->template->layout . '.php';
     }
 
 

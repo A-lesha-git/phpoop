@@ -27,7 +27,11 @@ class Session
     }
 
     public function getSid(){
-        return $_SESSION[$this->sessionKey];
+        if(isset($_SESSION[$this->sessionKey])){
+            return $_SESSION[$this->sessionKey];
+        }
+        return null;
+
     }
 
     public function setSid($sid){

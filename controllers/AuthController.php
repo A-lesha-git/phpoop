@@ -9,20 +9,12 @@
 namespace app\controllers;
 use app\base\App;
 use app\services\Auth;
+use app\services\renderers\Template;
+use app\services\renderers\TemplateRenderer;
 
 class AuthController extends Controller
 {
-    public function actionIndex()
-    {
-        if($_SERVER['REQUEST_METHOD'] == "POST"){
-            if((new Auth())->login($_POST['login'], $_POST['pass'])){
-                $this->redirect('product/list/');
-                exit;
-            }
-        }
 
-        echo $this->render('login');
-    }
 
     public function actionLogin(){
 
@@ -31,12 +23,14 @@ class AuthController extends Controller
                 $this->redirect('product/list/');
             }
         }
-        $render = $this->getTemplateRenderer();
-        $render->setTitle('Авторизация');
-        $render->setContent($render->renderContent("login/login", []));
 
-        echo $render->render(['render' => $this->render, 'user'=>null]);
-    }
+        $tpl = new Template(
+            new TemplateRenderer(),
+            "/login/login",
+            ['user'=>App::call()->user->getCurrent(),]
+            );
+        echo $tpl->render();
+   }
 
     public function actionLogout(){
         App::call()->auth->logout();

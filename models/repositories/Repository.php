@@ -64,19 +64,15 @@ class Repository
     public function findBy($params = []){
         $this->sql = "Select * from {$this->tableName} WHERE %s";
 
-
         foreach ($params as $key=>$value){
             $this->conditions .= $key ."=:" . $key . " AND ";
-
         }
 
         $this->conditions = substr($this->conditions, 0, -4);
         $this->sql = sprintf($this->sql,$this->conditions);
-        var_dump($this->sql);
+
 
         return $this->db->fetchObjects($this->sql, $params, $this->entityClass);
-//        $this->sql = str_replace();
-
     }
 
     /**
@@ -135,6 +131,7 @@ class Repository
                 $sqlLastPart = " WHERE id=:id";
             }
         }
+
         $this->sql = substr($this->sql,0,-1);
         $this->sql .= $sqlLastPart;
     }

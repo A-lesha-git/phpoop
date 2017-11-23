@@ -11,5 +11,6 @@ namespace app\services\renderers;
 
 interface  IRenderer
 {
-     public function render($template,$params);
+     
+     public function render(Template $template);
 }

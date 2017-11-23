@@ -15,6 +15,8 @@ use app\services\response\JsonCartResponse;
 use app\services\Session;
 use app\services\shop\CartProcessor;
 use app\services\RequestManager;
+use app\services\renderers\Template;
+use app\services\renderers\TemplateRenderer;
 
 class CartController extends Controller
 {
@@ -44,16 +46,20 @@ class CartController extends Controller
         $this->cartRepository = App::call()->cartRepository;
 
         $products = $this->cartRepository->getUserShopCartGoods($userId);
-
         $cartInfo = $this->cartProcessor->cartMainInfo($userId);
 
-        $render = $this->getTemplateRenderer();
-        $render->setTitle("Корзина покупок");
-        $render->setContent($render->renderContent('shop/cart', ['products'=>$products, 'cart'=>$cartInfo]));
+        $tpl = new Template(
+            new TemplateRenderer(),
+            'shop/cart',
+            [
+                'products' => $products,
+                'user'=>App::call()->user->getCurrent(),
+                'total'=>$cartInfo[0],
+                'quantity'=>$cartInfo[1]
+            ]
+        );
 
-        $user = App::call()->user->getCurrent();
-
-        echo $render->render(['render' => $this->render, 'products'=>$products, 'user'=> $user, 'total'=>$cartInfo[0], 'quantity'=>$cartInfo[1]]);
+        echo $tpl->render();
     }
 
     /*
