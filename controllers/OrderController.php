@@ -13,17 +13,44 @@ use app\base\App;
 use app\models\Order;
 use app\services\renderers\Template;
 use app\services\renderers\TemplateRenderer;
+use app\models\repositories\PurchaseRepository;
+use app\services\shop\OrderProcessor;
 
 
 class OrderController extends Controller
 {
     private $orderModel;
+
+    /** @var  PurchaseRepository */
+    private $purchaseRep;
+    
+    /** @var OrderProcessor */
+    private $orderProcessor;
+    
     /*
      * отображения конкретного заказа
      */
     public function actionView(){
         $orderId = $this->getRequest()->getParams()['id'];
-//        $purcheses = ;
+        $this->purchaseRep = App::call()->purchaseRepository;
+        $purchases = $this->purchaseRep->getOrderPurchases($orderId);
+        $order = App::call()->orderRepository->findOne($orderId);
+        $cartInfo = $this->cartProcessor = App::call()->cartProcessor->cartMainInfo();
+
+        $tpl = new Template(
+            new TemplateRenderer(),
+            "shop/view",
+            [
+                'order' => $order,
+                'purchases' => $purchases,
+                'user'=>App::call()->user->getCurrent(),
+                'layout'=>'default',
+                'title' => 'Список заказов',
+                'total'=>$cartInfo[0],'quantity'=>$cartInfo[1]
+            ]
+        );
+
+        echo $tpl->render();
     }
 
 
@@ -57,12 +84,7 @@ class OrderController extends Controller
 
 
 
-    /*
-     * реакция на добавления заказа
-     */
-    public function ActionCreate(){
 
-    }
 
 
     public function getOrderModel(){
@@ -72,4 +94,19 @@ class OrderController extends Controller
         }
         return $this->orderModel;
     }
+
+    /*
+ * реакция на добавления заказа
+ */
+    public function actionCreate(){
+
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
+            
+            $this->orderProcessor = App::call()->orderProcessor;
+            $this->orderProcessor->createUserOrder();
+        }
+
+    }
+
+
 }

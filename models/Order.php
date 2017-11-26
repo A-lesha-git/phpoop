@@ -9,6 +9,7 @@ use app\base\App;
 class Order extends DataEntity
 {
     protected $id;
+    protected $user_id;
     protected $status;
     protected $address;
     protected $delivery_id;
@@ -16,22 +17,55 @@ class Order extends DataEntity
     protected $total;
     protected $date;
     protected $discount = null;
-    private $paymant;
+    private $payment;
+    protected $email;
+
+
+
+    /**
+     * Order constructor.
+     * @param $id
+     * @param $user_id
+     * @param $status
+     * @param $address
+     * @param $delivery_id
+
+     * @param $date
+     * @param $payment
+     * @param $total
+     * @param $email
+     * @param $delivery
+     */
+    public function __construct($id = null, $user_id=null,   $status = null, $address = null, $delivery_id = null, $date = null, $payment = null, $total = null, $email=null, $delivery = null)
+    {
+        $this->id = $id;
+        $this->user_id = $user_id;
+        $this->status = $status;
+        $this->address = $address;
+        $this->delivery_id = $delivery_id;
+        $this->total = $total;
+        $this->date = $date;
+        $this->payment = $payment;
+        $this->email = $email;
+        $this->delivery = $delivery;
+
+    }
+
 
     /**
      * @return mixed
      */
-    public function getPaymant()
+    public function getPayment()
     {
-        return $this->paymant;
+        return $this->payment;
     }
 
     /**
-     * @param mixed $paymant
+     * @param mixed $payment
      */
-    public function setPaymant($paymant)
+    public function setPayment($payment)
     {
-        $this->paymant = $paymant;
+        $this->payment = $payment;
     }
 
 
@@ -148,12 +182,27 @@ class Order extends DataEntity
         $this->date = $date;
     }
 
-    // after testing remove hardcode
-    public function getOrder($orderId = 97){
+    public function getOrder($orderId){
         App::call()->orderRepository->findOne($orderId);
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @param mixed $user_id
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
     }
     
+
 
 
 }

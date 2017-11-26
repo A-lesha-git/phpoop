@@ -26,7 +26,7 @@ class ShopCartValidator implements ICartValidator
     private $notANumber = "Неверный формат данных";
     private $numberMoreThan = "нельзя выбрать более 1000";
     private $notAZero = "Число не может быть 0 ";
-    private $notMoreThanZero = "Не может быть отрицательное число ";
+    private $noMoreThanZero = "Не может быть отрицательное число ";
 
 
     public function isValidQuantity(Cart $good){
@@ -37,7 +37,7 @@ class ShopCartValidator implements ICartValidator
             } else if($good->getQuantity() === 0){
                 throw new ShopCartNotMatchException($this->notAZero);
             }else if($good->getQuantity() < 0){
-                throw new ShopCartNotMatchException($this->notMoreThanZero);
+                throw new ShopCartNotMatchException($this->noMoreThanZero);
             }else{
                 return true;
             }

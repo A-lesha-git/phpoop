@@ -11,7 +11,9 @@
                        
                         <!--<td>Количество: 1</td> -->
                         <td><span ><?=$item->getTitle()?></span></td>
-                        <td>Цена: <span class="price"><?=$item->getPrice()?> руб.</span></td>
+                        <td>Цена: <span class="price"><?=$item->getPrice()?> руб.</span>
+                            <input type="hidden" name="price[]" value="<?=$item->getPrice()?>">
+                        </td>
                         <td>кол-во:
                             <!--  <span><?=$item->getQuantity()?> </span>-->
                            <input class="update-cart" type="number" id="cart_<?=$item->getId() ?>" name="quantity[]" value="<?= $item->getQuantity()?>">
@@ -32,15 +34,19 @@
                     <td>
                         <select   name="delivery">
                             <option disabled>Выберите способ доставки</option>
-                            <option value="Курьером">Курьером</option>
-                            <option value="Самовывоз">Самовывоз</option>
+                            <option value="1">Курьером</option>
+                            <option value="2">Самовывоз</option>
                         </select></td>
                     <td>
                         <select   name="payment">
                             <option disabled>Выберите способ оплаты</option>
                             <option value="Наличным">Наличным</option>
                             <option value="Безнал">Безнал</option>
-                        </select></td>
+                        </select>
+                    </td>
+                    <td>
+                        <textarea name="address" placeholder="Ваш адрес:"></textarea><br>
+                    </td>
                     <td><button class="make-order"> ОФОРМИТЬ ЗАКАЗ </button></td>
             </form>
             </tr>

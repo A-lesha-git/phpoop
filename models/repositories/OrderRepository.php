@@ -24,6 +24,17 @@ class OrderRepository extends Repository
     }
 
 
+
+    public function getOrderById($id){
+
+        $sql = "SELECT o.*, d.name FROM orders o
+                JOIN delivery d ON o.delivery_id=d.id
+                WHERE o.id={$id} ";
+
+        return $this->db->fetchObject($sql, [], $this->entityClass);
+    }
+
+
     
 
 }

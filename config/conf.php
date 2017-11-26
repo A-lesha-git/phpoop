@@ -22,6 +22,10 @@ return [
         'cartProcessor' => [
             'class' => \app\services\shop\CartProcessor::class
         ],
+
+        'orderProcessor' => [
+            'class' => \app\services\shop\OrderProcessor::class
+        ],
         'cart' => [
             'class' => \app\models\Cart::class
         ],
@@ -45,6 +49,9 @@ return [
         ],
         'orderRepository' => [
             'class' => \app\models\repositories\OrderRepository::class
+        ],
+        'purchaseRepository' => [
+            'class' => \app\models\repositories\PurchaseRepository::class
         ],
 
     ]
