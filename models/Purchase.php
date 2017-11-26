@@ -9,14 +9,34 @@
 namespace app\models;
 
 
-class Purchase
+class Purchase extends DataEntity
 {
-    private $id;
-    private $product_id;
-    private $order_id;
-    private $title;
-    private $quantity;
-    private $price;
+    protected $id;
+    protected $product_id;
+    protected $order_id;
+    protected $title;
+    protected $quantity;
+    protected $price;
+
+    /**
+     * Purchase constructor.
+     * @param $id
+     * @param $product_id
+     * @param $order_id
+     * @param $title
+     * @param $quantity
+     * @param $price
+     */
+    public function __construct($id = null, $product_id= null, $order_id = null, $title = null, $quantity = null, $price = null)
+    {
+        $this->id = $id;
+        $this->product_id = $product_id;
+        $this->order_id = $order_id;
+        $this->title = $title;
+        $this->quantity = $quantity;
+        $this->price = $price;
+    }
+
 
     /**
      * @return mixed

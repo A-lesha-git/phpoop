@@ -8,9 +8,14 @@
                     <tr class="product-cart">
                         <input type="hidden" name="id[]" value="<?= $item->getId()?>">
                         <input type="hidden" name="product_id[]" value="<?= $item->getProductId()?>">
+
                        
                         <!--<td>Количество: 1</td> -->
-                        <td><span ><?=$item->getTitle()?></span></td>
+                        <td>
+                            <span ><?=$item->getTitle()?></span>
+                            <input type="hidden" name="title[]" value="<?=$item->getTitle()?>">
+
+                        </td>
                         <td>Цена: <span class="price"><?=$item->getPrice()?> руб.</span>
                             <input type="hidden" name="price[]" value="<?=$item->getPrice()?>">
                         </td>
