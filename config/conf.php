@@ -8,8 +8,8 @@ return [
             'class' => \app\services\Db::class,
             'driver' => 'mysql',
             'host' => 'localhost',
-            'login' => 'php_user',
-            'password' => 'pass',
+            'login' => 'test',
+            'password' => 'test',
             'database' => 'geekshop',
             'charset' => 'UTF8'
         ],
