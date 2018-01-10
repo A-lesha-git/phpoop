@@ -119,7 +119,6 @@ class CartProcessor
     }
 
 
-
     /*
      * Получение основных данных корзины
      * количество и общая стоимость товаров
@@ -142,25 +141,7 @@ class CartProcessor
         return [$this->total, $this->quantity];
     }
 
-    public function responseUsersCartMainJsonInfo($uid = null){
-        if(!isset($uid)) {
-            $uid = App::call()->session->getUid();
-        }
-        $this->cartRepository = App::call()->cartRepository;
 
-        $shopCartGoods = $this->cartRepository->getUserShopCartGoods($uid);
-
-        foreach ($shopCartGoods as $good) {
-            $this->quantity += $good->getQuantity();
-            $this->total += $good->getPrice() * $good->getQuantity();
-        }
-
-        $this->message = $this->getMessage();
-        $reflection =  new \ReflectionClass(JsonCartResponse::class);
-        $response =  $reflection->newInstanceArgs([$this->total, $this->quantity, $this->message]);
-
-        return $response->get();
-    }
 
 
 
@@ -213,6 +194,21 @@ class CartProcessor
         return $this->shopCartNotify;
     }
 
+
+    public function moveUsersGoodsToOrder($orderId){
+        $this->cartRepository = App::call()->cartRepository;
+        $shopCartGoods = $this->cartRepository->getUserShopCartGoods(App::call()->session->getUid());
+        foreach ($shopCartGoods as $good) {
+            $good->setOrderId($orderId);
+            $good->setIsInOrder(true);
+            if(!$this->cartRepository->moveGoodInOrder($good))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     
 }

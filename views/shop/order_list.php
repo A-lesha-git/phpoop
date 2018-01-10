@@ -2,7 +2,7 @@
     <h3>У вас нет заказов</h3>
 <?php else: ?>
     <?php foreach ($orders as $order): ?>
-        <li>
+        <li id="order_<?= $order->getId() ?>">
             Номер заказа: <?= $order->getId() ?>
             <span class="delivery">Доставка: <?= $order->delivery?></span>
             <span class="total-price">Стоимость: <?= $order->getTotal() ?></span>

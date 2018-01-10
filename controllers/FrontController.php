@@ -20,7 +20,7 @@ class FrontController extends Controller
     private $controllerClass;
     private $action;
     private $defaultController = "Product";
-    private $isAuthorized;
+
 
 
     public function actionIndex()
@@ -31,9 +31,8 @@ class FrontController extends Controller
             $this->controllerClass = App::call()->config['controller_namespaces'] . ucfirst($controllerName) . "Controller";
             $this->action = $rm->getActionName();
             $this->isClassAndActionExist();
-//            if($this->action != "login") {
+
             $this->checkLogin();
-//            }
         }
         //отлавливаем возможные варианты
         // не существует экшна или класса и перебрасываем на 404 страницу
@@ -45,7 +44,6 @@ class FrontController extends Controller
         catch (AuthenticationNotMatchException $e){
 //            var_dump($e);
             $this->redirect('auth/login/');
-//            var_dump(12341414);
             (new AuthController())->actionLogin();
             exit;
         }
@@ -58,7 +56,7 @@ class FrontController extends Controller
     }
 
     private function checkLogin(){
-        session_start();
+        App::call()->session->start();
         if($this->controllerClass != "\\" . AuthController::class){
             $user = (new User())->getCurrent();
             if(is_null($user)){
@@ -76,7 +74,6 @@ class FrontController extends Controller
         $this->controller = new $this->controllerClass();
         if(!method_exists($this->controller, $this->prefix . $this->action)) {
             throw  new RequestNotMatchException("У контроллера " . get_class($this->controller) ." не существует метода " . $this->prefix . $this->action);
-            exit;
         }
     }
 

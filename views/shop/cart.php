@@ -1,7 +1,7 @@
 <div class="cart">
 
-        <span class="message-info"><? $message ?></span>
-        <table>
+
+        <table class="product-cart">
             <form id="shop_cart_order" action="javascript:void(null);" method="post">
                 <?php foreach ($products as $item): ?>
 

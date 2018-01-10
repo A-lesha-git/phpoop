@@ -64,7 +64,7 @@ class Auth
 //        $_SESSION[$this->sessionKey] = $sid;
         App::call()->session->setSid($sid);
         App::call()->session->setUid($user->id);
-        var_dump($_SESSION);
+
     }
 
     private function generateStr($length = 10)

@@ -48,7 +48,7 @@ class Repository
     }
 
     public function fetchOne(){
-        var_dump($this->sql);
+
         return $this->db->execute($this->sql,$this->params);
     }
 
@@ -83,7 +83,7 @@ class Repository
 
         $this->params = $this->prepareParams($entity);
         $this->createInsertSql();
-        var_dump($this->sql);
+        
         return $this->db->execute($this->sql,$this->params);
 
     }

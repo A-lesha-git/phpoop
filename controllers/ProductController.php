@@ -67,6 +67,8 @@ class ProductController extends Controller
      * Выводит страницу товара
      */
     public function actionCard(){
+
+        echo json_decode('\u0422\u043e\u0432\u0430\u0440 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d \u0432 \u043a\u043e\u0440\u0437\u0438\u043d\u0443');
         $id = $this->getRequest()->getParams()['id'];
         $this->productRepository = App::call()->productRepository;
 

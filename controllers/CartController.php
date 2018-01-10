@@ -46,6 +46,7 @@ class CartController extends Controller
         $this->cartRepository = App::call()->cartRepository;
 
         $products = $this->cartRepository->getUserShopCartGoods($userId);
+
         $cartInfo = $this->cartProcessor->cartMainInfo($userId);
 
         $tpl = new Template(
@@ -71,6 +72,7 @@ class CartController extends Controller
             $productId = $this->request->get('post', 'product_id');
             $this->cartProcessor = App::call()->cartProcessor;
             $result = $this->cartProcessor->addProductToUserShopCart( $productId);
+
 
             header("Content-Type: application/json", true);
             echo (new JsonCartResponse($result['total'], $result['quantity'], $result['message']))->get();

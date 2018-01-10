@@ -20,7 +20,8 @@ class Order extends DataEntity
     private $payment;
     protected $email;
 
-
+    const STATUS_NEW = "Новый";
+    const STATUS_CANCELED = "Отменен";
 
     /**
      * Order constructor.

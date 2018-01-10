@@ -14,6 +14,7 @@ use app\models\Order;
 use app\services\renderers\Template;
 use app\services\renderers\TemplateRenderer;
 use app\models\repositories\PurchaseRepository;
+use app\services\shop\CartProcessor;
 use app\services\shop\OrderProcessor;
 
 
@@ -26,7 +27,10 @@ class OrderController extends Controller
     
     /** @var OrderProcessor */
     private $orderProcessor;
-    
+
+
+    /** @var CartProcessor */
+    private $cartProcessor;
     /*
      * отображения конкретного заказа
      */
@@ -54,14 +58,12 @@ class OrderController extends Controller
     }
 
 
-
-
 /*
  * Отображение списка заказов
  */
     public function actionList(){
         $id = $this->getRequest()->getParams()['id'];
-        $orders = App::call()->orderRepository->findBy(['user_id' => $id]);
+        $orders = App::call()->orderRepository->getUsersNewOrders($id);
         $user = App::call()->user->getCurrent();
         $this->cartProcessor = App::call()->cartProcessor;
         $cartInfo = $this->cartProcessor->cartMainInfo();
@@ -87,6 +89,7 @@ class OrderController extends Controller
 
 
 
+
     public function getOrderModel(){
         if(!isset($this->orderModel)) 
         {
@@ -96,14 +99,45 @@ class OrderController extends Controller
     }
 
     /*
- * реакция на добавления заказа
- */
+     * реакция на добавления заказа
+     */
     public function actionCreate(){
 
         if($_SERVER['REQUEST_METHOD'] == "POST") {
             
             $this->orderProcessor = App::call()->orderProcessor;
-            $this->orderProcessor->createUserOrder();
+            $orderId = $this->orderProcessor->createUserOrder();
+
+            if(!is_null($orderId)){
+               
+                if(App::call()->cartProcessor->moveUsersGoodsToOrder($orderId)){
+                    $result['message'] = "Заказ создан";
+
+                    header("Content-Type: application/json", true);
+                    echo json_encode($result);
+                }
+            }
+        }
+
+    }
+
+
+    /*
+     * реакция на отмену заказа
+     */
+    public function actionCancel(){
+
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
+            $orderId = App::call()->request->get('post', 'order_id');
+            $this->orderProcessor = App::call()->orderProcessor;
+            $this->orderProcessor->cancelUsersOrder($orderId);
+
+            if($this->orderProcessor->cancelUsersOrder($orderId)){
+                $result['message'] = "canceled";
+
+                header("Content-Type: application/json", true);
+                echo json_encode($result);
+            }
         }
 
     }

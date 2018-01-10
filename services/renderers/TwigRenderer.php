@@ -27,7 +27,7 @@ class TwigRenderer implements IRenderer
 
 // здесь реализуется логика отображения твиг шаблона
     public function render(Template $tpl){
-        return null;
+        return ;
     }
 
 }

@@ -30,20 +30,34 @@ class OrderProcessor
 
 
 
-
+    /*
+     * Создает заказ пользователя
+     */
     public function createUserOrder(){
+
         $params =  $this->prepareOrderData();
         $reflection =  new \ReflectionClass(Order::class);
         $order =  $reflection->newInstanceArgs($params);
         $this->orderRepo = App::call()->orderRepository;
-        $this->orderRepo->add($order);
-        $orderId = $this->orderRepo->getLastInsertedId();
+        if($this->orderRepo->add($order)){
+            $orderId = $this->orderRepo->getLastInsertedId();
+            $this->preparePurchaseParams($orderId);
 
-        $this->preparePurchaseParams($orderId);
+            if(!$this->addPurchases()){
+                return null;
+            }
+            
+            
+            return $orderId;
+        }else {
+            return null;
+        }
+    }
 
-        $this->addPurchases();
 
+    public function cancelUsersOrder($orderId){
 
+        return App::call()->orderRepository->cancelOrder($orderId);
     }
 
     public function preparePurchaseParams($orderId){
@@ -59,15 +73,19 @@ class OrderProcessor
 
     }
 
-
+    /*
+     * Добавление позиций в заказ
+     */
     public function addPurchases(){
         $this->purchaseRepo = App::call()->purchaseRepository;
         foreach ($this->goods as $good){
             $reflection =  new \ReflectionClass(Purchase::class);
             $purchase =  $reflection->newInstanceArgs($good);
-
-            $this->purchaseRepo->add($purchase);
+            if(!$this->purchaseRepo->add($purchase)){
+                return false;
+            }
         }
+        return true;
     }
 
     public function prepareOrderData(){
@@ -87,16 +105,7 @@ class OrderProcessor
         for($i=0;$i<count($this->request->get('post', 'quantity')); $i++){
             $quantity += $this->request->get('post', 'quantity')[$i];
             $total += $this->request->get('post', 'quantity')[$i] * $this->request->get('post', 'price')[$i];
-
         }
-
-
-
-//            $this->goods[$i]['id'] = null;
-//            $this->goods[$i]['product_id'] = $this->request->get('post', 'product_id')[$i];
-//            $this->goods[$i]['quantity'] = $this->request->get('post', 'quantity')[$i];
-//            $this->goods[$i]['title'] = $this->request->get('post', 'title')[$i];
-
 
         
         $params['total'] = $total;

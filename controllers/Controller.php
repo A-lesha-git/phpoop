@@ -15,7 +15,7 @@ use app\services\RequestManager;
 
 abstract class Controller
 {
-    protected $renderer;
+    
     protected $twigRenderer;
     private $defaultAction = "index";
     protected $render = null;

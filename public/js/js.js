@@ -75,49 +75,32 @@ $(document).ready(function() {
                     $('.quantity-cart').text(0);
                     $('.total-cart').text(0);
                     $('.message-info').text(response.message);
-                    $('.product-cart').remove();
+                    $('.product-cart tr').remove();
                 }
             })
         }
     );
 
-    //create order
+    //cancel order
     $('.cancel-order').on('click', function(){
             var id_good = $(this).attr("id").substr(6);
             $.ajax({
                 dataType: "json",
                 method: "POST",
-                url: "/shop/orders/cansel",
+                url: "/order/cancel/",
                 data: {
                     "order_id":id_good
                 },
                 success: function(response){
-                    $('.message-info').text(response.message);
-                    $('#order_' +id_good).parents('li').remove();
+                    $('.message-info').text('заказ ' + id_good + ' отменен');
+                    $('li #order_' +id_good).parent('li').remove();
+
                 }
             })
         }
     );
 
-    //create order
-    // $('.make-order').on('click', function(){
-    //         // var msg   = $('#shop_cart_order').serialize();
-    //         // console.log(msg);
-    //         $.ajax({
-    //             dataType: "json",
-    //             method: "POST",
-    //             url: "/shop/orders/create",
-    //             data: $('#shop_cart_order').serialize(),
-    //             success: function(response){
-    //                 $('.message-info').text(0);
-    //                 $('.quantity-cart').text(0);
-    //                 $('.total-cart').text(0);
-    //                 $('.message-info').text(response.message);
-    //                 $('.product-cart').remove();
-    //             }
-    //         })
-    //     }
-    // );
+
 
 
     //

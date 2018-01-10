@@ -16,6 +16,9 @@ class Session
     private $uidKey = 'uid';
     private $uid;
 
+    public function start(){
+        session_start();
+    }
 
     public function getUid(){
         return $this->uid = $_SESSION[$this->uidKey];
@@ -46,5 +49,6 @@ class Session
         $this->uid = null;
         $_SESSION = [];
     }
+
 
 }

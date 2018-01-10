@@ -26,18 +26,19 @@ class CartRepository extends Repository
     }
 
     public function getUserShopCartGoods($userId){
-
-        return $this->db->fetchObjects(
-            "select c.* , p.title from shop_cart c
+        $sql = "select c.* , p.title from shop_cart c
               join products p on c.product_id = p.id          
-              where c.user_id=:user_id",
+              where c.user_id=:user_id
+              and c.is_in_order IS null and c.order_id IS NULL";
+        return $this->db->fetchObjects(
+            $sql,
             [':user_id' => $userId],
             $this->entityClass
         );
     }
 
     public function getProductInUsersShopCart($productId){
-        $this->sql = "SELECT id from shop_cart WHERE user_id='{$this->uid}' AND product_id='$productId'";
+        $this->sql = "SELECT id from shop_cart WHERE user_id='{$this->uid}' AND product_id='$productId' AND is_in_order IS NULL and order_id IS NULL";
         $result = $this->db->fetchObject($this->sql, [], $this->entityClass);
         if(!empty($result)){
 
@@ -67,6 +68,14 @@ class CartRepository extends Repository
         $this->sql = "UPDATE shop_cart SET quantity = {$good->getQuantity()} WHERE id={$good->getId()}";
         return $this->db->execute($this->sql, []);
         
+    }
+
+
+    public function moveGoodInOrder($good){
+
+        $this->sql = "UPDATE {$this->tableName} SET order_id={$good->getOrderId()}, is_in_order=true WHERE id={$good->getId()}";
+
+        return $this->db->execute($this->sql, []);
     }
 
 }
